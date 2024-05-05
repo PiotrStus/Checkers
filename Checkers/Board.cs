@@ -27,7 +27,7 @@ namespace Checkers
             Console.WriteLine(computerCheckers);
 
             Player newPlayer = new Player();
-            Console.WriteLine("DUPAAAAAAAAAAAA");
+            Console.WriteLine("test test");
             if (CheckerBoard[4, 0] != 'o' && CheckerBoard[4, 0] != 'x')
             {
                 Console.WriteLine("wolne");
