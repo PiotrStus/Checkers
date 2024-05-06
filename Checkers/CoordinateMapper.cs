@@ -40,14 +40,15 @@ namespace Checkers
         }
         public (int, int) GetCoordinates(string key)
         {
-            if (coordinateMap.ContainsKey(key))
-            {
-                return coordinateMap[key];
-            }
-            else
-            {
-                throw new ArgumentException("Invalid key");
-            }
+            //if (coordinateMap.ContainsKey(key))
+            //{
+            //    return coordinateMap[key];
+            // }
+            //else
+            //{
+            //    Console.WriteLinei
+            //}
+            return coordinateMap[key];
         }
 
         public string GetIndex((int, int) coordinates)

@@ -23,7 +23,15 @@ namespace Checkers
             {
                 PossibleMoves[position] = new List<(int, int)>();
             }
-            PossibleMoves[position].AddRange(move);
+            //PossibleMoves[position].AddRange(move);
+            foreach (var m in move)
+            {
+                if (!PossibleMoves[position].Contains(m))
+                {
+                    PossibleMoves[position].Add(m);
+                }
+            }
+
         }
 
         public Player(char playerSymbol)

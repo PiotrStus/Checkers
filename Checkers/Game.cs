@@ -16,18 +16,26 @@ namespace Checkers
         {
             board = new Board(8, 8, player1, player2);
             //CoordinateMapper mapper = new CoordinateMapper();
-            
-            Console.WriteLine("\nPlayer1 'o' checkers positions: ");
-            board.CheckPositionsOfCheckers(player1, 'o');
-            Console.Write("\nSelect a checker to move: ");
-            string inputCurrentIndex = Console.ReadLine();
-            //(int currentRow, int currentColumn) currentPosition = mapper.GetCoordinates($"{inputCurrentIndex.ToUpper()}");
-            (int currentRow, int currentColumn) currentPosition = board.GetCoordinates($"{inputCurrentIndex.ToUpper()}");
-            Console.WriteLine($"{inputCurrentIndex}: {currentPosition}");
-            //GameTest();
-            Console.WriteLine();
-            string currentPositionReturned = board.GetIndex(currentPosition);
-            Console.WriteLine(currentPositionReturned);
+            while (true)
+            {
+                Console.WriteLine("\nPlayer1 'o' checkers positions: ");
+                board.CheckPositionsOfCheckers(player1, 'o');
+                board.GetPossibleMovesForChecker(player1);
+                Console.Write("\nSelect a checker to move: ");
+                string inputCurrentIndex = Console.ReadLine();
+                //(int currentRow, int currentColumn) currentPosition = mapper.GetCoordinates($"{inputCurrentIndex.ToUpper()}");
+                (int currentRow, int currentColumn) currentPosition = board.GetCoordinates($"{inputCurrentIndex.ToUpper()}");
+                //Console.WriteLine($"{inputCurrentIndex}: {currentPosition}");
+                //GameTest();
+                //Console.WriteLine();
+                string currentPositionReturned = board.GetIndex(currentPosition);
+                //Console.WriteLine(currentPositionReturned);
+                Console.WriteLine($"\nPossible move for {currentPositionReturned}:");
+                board.GetPossibleMoveForSpecificChecker(player1, currentPosition);
+
+                Console.Write("Press any key to continue...");
+                Console.ReadLine();
+            }
         }
 
         public void GameTest()
