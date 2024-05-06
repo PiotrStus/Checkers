@@ -16,6 +16,10 @@ namespace Checkers
         {
             PositionsOfCheckers.Add(position);
         }
+        public void Remove((int row, int column) position)
+        {
+            PositionsOfCheckers.Remove(position);
+        }
 
         public void AddPossibleMove((int row, int column) position, List<(int, int)> move)
         {

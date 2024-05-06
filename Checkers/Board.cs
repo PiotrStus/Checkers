@@ -22,7 +22,7 @@ namespace Checkers
             CheckerBoard = new char[NumberOfRows, NumberOfColumns];
             // mapper = new CoordinateMapper();
             InitialBoard();
-            DrawBoard();
+            //DrawBoard();
             InitializeCoordinateMap();
             //int player1NumberOfCheckers = CheckPlayersCheckers('o');
             //Console.WriteLine(player1NumberOfCheckers);
@@ -56,7 +56,7 @@ namespace Checkers
                 }
             }
         }
-        private void DrawBoard()
+        public void DrawBoard()
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("    A B C D E F G H");
@@ -93,7 +93,7 @@ namespace Checkers
                     if (CheckerBoard[row, column] == playerSymbol)
                     {
                         if (!player.PositionsOfCheckers.Contains((row, column)))
-                        player.Add((row, column));
+                            player.Add((row, column));
                     }
                 }
             }
@@ -107,59 +107,70 @@ namespace Checkers
         {
             foreach (var checkerPosition in player.PositionsOfCheckers)
             {
-                //Console.WriteLine("n123_DUPA_123");
-                //Console.WriteLine("sprawdzana pozycja: " + checkerPosition);
-                //Console.WriteLine(checker.row);
-                //Console.WriteLine(checker.column);
-                //Console.WriteLine("123_DUPA_123");
-                //Console.WriteLine("Sprawdzanie wiersz +1 i kolumna +1");
                 List<(int, int)> possibleMoves = new List<(int, int)>();
                 if (checkerPosition.row + 1 < NumberOfRows && checkerPosition.column + 1 < NumberOfColumns)
                 {
-                    //Console.WriteLine($"Sprawdzane wolne miejsce: {checkerPosition.row + 1}, {checkerPosition.column + 1}");
                     if ((CheckerBoard[checkerPosition.row + 1, checkerPosition.column + 1] != 'o') && (CheckerBoard[checkerPosition.row + 1, checkerPosition.column + 1] != 'x'))
                     {
-                        //Console.WriteLine("wolne");
                         if (!possibleMoves.Contains((checkerPosition.row + 1, checkerPosition.column + 1)))
-                        possibleMoves.Add((checkerPosition.row + 1, checkerPosition.column + 1));
+                            possibleMoves.Add((checkerPosition.row + 1, checkerPosition.column + 1));
                     }
-                    //else
-                    //Console.WriteLine("zajete");
-                    //Console.WriteLine("Sprawdzanie wiersz +1 i kolumna -1");
-                    //Console.WriteLine($"Sprawdzane wolne miejsce: {checkerPosition.row + 1}, {checkerPosition.column - 1}");
-                    if (checkerPosition.row + 1 < NumberOfRows && checkerPosition.column - 1 >= 0)
+                }
+                if (checkerPosition.row + 1 < NumberOfRows && checkerPosition.column - 1 >= 0)
+                {
+                    if ((CheckerBoard[checkerPosition.row + 1, checkerPosition.column - 1] != 'o') && (CheckerBoard[checkerPosition.row + 1, checkerPosition.column - 1] != 'x'))
                     {
-                        if ((CheckerBoard[checkerPosition.row + 1, checkerPosition.column - 1] != 'o') && (CheckerBoard[checkerPosition.row + 1, checkerPosition.column - 1] != 'x'))
-                        {
-                            //Console.WriteLine("wolne");
-                            if (!possibleMoves.Contains((checkerPosition.row + 1, checkerPosition.column - 1)))
-                                possibleMoves.Add((checkerPosition.row + 1, checkerPosition.column - 1));
-                        }
-                        //else
-                        //Console.WriteLine("zajete");
+                        if (!possibleMoves.Contains((checkerPosition.row + 1, checkerPosition.column - 1)))
+                            possibleMoves.Add((checkerPosition.row + 1, checkerPosition.column - 1));
                     }
-                    //else
-                    //Console.WriteLine("poza indeksem");
                 }
                 player.AddPossibleMove(checkerPosition, possibleMoves);
-                //Console.WriteLine("Koniec \n");
             }
         }
-        public void GetPossibleMoveForSpecificChecker(Player player, (int row, int col) currentPosition)
+        public bool GetPossibleMoveForSpecificChecker(Player player, (int row, int col) currentPosition)
         {
             if (player.PossibleMoves.ContainsKey(currentPosition))
             {
                 List<(int, int)> possibleMoves = player.PossibleMoves[currentPosition];
-                foreach (var move in possibleMoves)
+                if (possibleMoves.Count > 0)
                 {
-                    Console.Write($"{GetIndex(move)}, ");
+                    foreach (var move in possibleMoves)
+                    {
+                        Console.Write($"{GetIndex(move)}, ");
+                    }
+                    return true;
                 }
-                Console.WriteLine();
+                else
+                {
+                    Console.WriteLine("There are no possible moves.");
+                    return false;
+                }
+            }
+            Console.WriteLine();
+            return false;
+        }
+
+        public void MoveCheckerTest(Player player, (int currentRow, int currentColumn) currentPosition, (int newRow, int newColumn) newPosition)
+        {
+            if (!player.PositionsOfCheckers.Contains(newPosition))
+            {
+                player.Remove(currentPosition);
+                CheckerBoard[newPosition.newRow, newPosition.newColumn] = 'o';
+                CheckerBoard[currentPosition.currentRow, currentPosition.currentColumn] = '_';
+                player.Add(newPosition);
+                player.PossibleMoves.Clear();
+                GetPossibleMovesForChecker(player);
             }
         }
-        public void MoveChecker((int currentRow, int currentColumn) currentPosition, (int newRow, int newColumn) newPosition)
+        public void MoveChecker(Player player, (int currentRow, int currentColumn) currentPosition, (int newRow, int newColumn) newPosition)
         {
-
+            if (!player.PositionsOfCheckers.Contains(newPosition))
+            {
+                player.Remove(currentPosition);
+                CheckerBoard[newPosition.newRow, newPosition.newColumn] = 'o';
+                CheckerBoard[currentPosition.currentRow, currentPosition.currentColumn] = '_';
+                player.Add(newPosition);
+            }
         }
     }
 }
