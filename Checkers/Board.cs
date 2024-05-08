@@ -113,18 +113,45 @@ namespace Checkers
                     //Console.WriteLine(checkerPosition);
                     if (checkerPosition.row + 1 < NumberOfRows && checkerPosition.column + 1 < NumberOfColumns)
                     {
-                        if ((CheckerBoard[checkerPosition.row + 1, checkerPosition.column + 1] != 'o') && (CheckerBoard[checkerPosition.row + 1, checkerPosition.column + 1] != 'x'))
+                        if (CheckerBoard[checkerPosition.row + 1, checkerPosition.column + 1] == '_')
                         {
                             if (!possibleMoves.Contains((checkerPosition.row + 1, checkerPosition.column + 1)))
                                 possibleMoves.Add((checkerPosition.row + 1, checkerPosition.column + 1));
                         }
+                        else if (CheckerBoard[checkerPosition.row + 1, checkerPosition.column + 1] == 'x')
+                        {
+                            if (checkerPosition.row + 2 < NumberOfRows && checkerPosition.column + 2 < NumberOfColumns)
+                            {
+                                if (CheckerBoard[checkerPosition.row + 2, checkerPosition.column + 2] == '_')
+                                {
+                                    if (!possibleMoves.Contains((checkerPosition.row + 1, checkerPosition.column + 1)))
+                                    {
+                                        possibleMoves.Add((checkerPosition.row + 2, checkerPosition.column + 2));
+                                    }
+                                }
+                            }
+                        }
+
                     }
                     if (checkerPosition.row + 1 < NumberOfRows && checkerPosition.column - 1 >= 0)
                     {
-                        if ((CheckerBoard[checkerPosition.row + 1, checkerPosition.column - 1] != 'o') && (CheckerBoard[checkerPosition.row + 1, checkerPosition.column - 1] != 'x'))
+                        if ((CheckerBoard[checkerPosition.row + 1, checkerPosition.column - 1] == '_'))
                         {
                             if (!possibleMoves.Contains((checkerPosition.row + 1, checkerPosition.column - 1)))
                                 possibleMoves.Add((checkerPosition.row + 1, checkerPosition.column - 1));
+                        }
+                        else if (CheckerBoard[checkerPosition.row + 1, checkerPosition.column - 1] == 'x')
+                        {
+                            if (checkerPosition.row + 2 < NumberOfRows && checkerPosition.column - 2 >= 0)
+                            {
+                                if (CheckerBoard[checkerPosition.row + 2, checkerPosition.column - 2] == '_')
+                                {
+                                    if (!possibleMoves.Contains((checkerPosition.row + 1, checkerPosition.column - 1)))
+                                    {
+                                        possibleMoves.Add((checkerPosition.row + 2, checkerPosition.column - 2));
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -143,7 +170,7 @@ namespace Checkers
                     {
                         if ((CheckerBoard[checkerPosition.row - 1, checkerPosition.column - 1] != 'o') && (CheckerBoard[checkerPosition.row - 1, checkerPosition.column - 1] != 'x'))
                         {
-                            
+
                             if (!possibleMoves.Contains((checkerPosition.row - 1, checkerPosition.column - 1)))
                                 possibleMoves.Add((checkerPosition.row - 1, checkerPosition.column - 1));
                         }
@@ -178,13 +205,49 @@ namespace Checkers
             return false;
         }
 
-        public void MoveCheckerTest(Player player, (int currentRow, int currentColumn) currentPosition, (int newRow, int newColumn) newPosition)
+        public void MoveCheckerTest(Player player, Player player2, (int currentRow, int currentColumn) currentPosition, (int newRow, int newColumn) newPosition)
         {
             if (!player.PositionsOfCheckers.Contains(newPosition))
             {
                 player.Remove(currentPosition);
                 CheckerBoard[newPosition.newRow, newPosition.newColumn] = player.PlayerSymbol;
                 CheckerBoard[currentPosition.currentRow, currentPosition.currentColumn] = '_';
+                if (currentPosition.currentRow + 1 < NumberOfRows && currentPosition.currentColumn - 1 >= 0)
+                {
+                    if (player.PlayerSymbol == 'o')
+                    {
+                        if (currentPosition.currentColumn + 1 < NumberOfColumns)
+                        {
+                            if (CheckerBoard[currentPosition.currentRow + 1, currentPosition.currentColumn + 1] == 'x')
+                            {
+                                CheckerBoard[currentPosition.currentRow + 1, currentPosition.currentColumn + 1] = '_';
+                                player2.Remove((currentPosition.currentRow + 1, currentPosition.currentColumn + 1));
+
+                            }
+                        }
+                        if (CheckerBoard[currentPosition.currentRow + 1, currentPosition.currentColumn - 1] == 'x')
+                        {
+                            CheckerBoard[currentPosition.currentRow + 1, currentPosition.currentColumn - 1] = '_';
+                            player2.Remove((currentPosition.currentRow + 1, currentPosition.currentColumn - 1));
+                        }
+
+                        player2.PossibleMoves.Clear();
+                        GetPossibleMovesForChecker(player2);
+                    }
+                    else if (player.PlayerSymbol == 'x')
+                    {
+                        if (currentPosition.currentColumn + 1 < NumberOfColumns)
+                        {
+                            if (CheckerBoard[currentPosition.currentRow + 1, currentPosition.currentColumn + 1] == 'o')
+                            {
+                                //CheckerBoard[currentPosition.currentRow + 1, currentPosition.currentColumn + 1] = '_';
+                                //player2.Remove((currentPosition.currentRow + 1, currentPosition.currentColumn + 1));
+                                player2.PossibleMoves.Clear();
+                                GetPossibleMovesForChecker(player2);
+                            }
+                        }
+                    }
+                }
                 player.Add(newPosition);
                 player.PossibleMoves.Clear();
                 GetPossibleMovesForChecker(player);

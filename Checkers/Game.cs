@@ -19,11 +19,11 @@ namespace Checkers
             {
                 board.DrawBoard();
                 player1.NumberOfCheckers = board.CheckPlayersCheckers(player1.PlayerSymbol);
-                Console.WriteLine($"\nplayer1.NumberOfCheckers: {player1.NumberOfCheckers}");
+                Console.WriteLine($"\nPlayer - NumberOfCheckers: {player1.NumberOfCheckers}");
 
                 // new
                 computer.NumberOfCheckers = board.CheckPlayersCheckers(computer.PlayerSymbol);
-                Console.WriteLine($"\ncomputer.NumberOfCheckers: {computer.NumberOfCheckers}");
+                Console.WriteLine($"\nComputer - NumberOfCheckers: {computer.NumberOfCheckers}");
                 // new
 
                 Console.WriteLine("\nPlayer1 'o' checkers positions: ");
@@ -51,7 +51,8 @@ namespace Checkers
                     string inputNewIndex = Console.ReadLine();
                     (int newRow, int newPos) newPosition = board.GetCoordinates($"{inputNewIndex.ToUpper()}");
                     //Console.WriteLine(newPosition);
-                    board.MoveCheckerTest(player1, currentPosition, newPosition);
+                    board.MoveCheckerTest(player1,computer, currentPosition, newPosition);
+                    Console.Clear();
                     board.DrawBoard();
                 }
                 //Computer - checker to move
@@ -69,7 +70,8 @@ namespace Checkers
                     string inputNewIndex2 = Console.ReadLine();
                     (int newRow2, int newCol2) newPosition2 = board.GetCoordinates($"{inputNewIndex2.ToUpper()}");
                     //Console.WriteLine(newPosition2);
-                    board.MoveCheckerTest(computer, currentPosition2, newPosition2);
+                    board.MoveCheckerTest(computer,player1, currentPosition2, newPosition2);
+                    Console.Clear();
                     board.DrawBoard();
                 }
 
