@@ -118,7 +118,7 @@ namespace Checkers
                             if (!possibleMoves.Contains((checkerPosition.row + 1, checkerPosition.column + 1)))
                                 possibleMoves.Add((checkerPosition.row + 1, checkerPosition.column + 1));
                         }
-                        else if (CheckerBoard[checkerPosition.row + 1, checkerPosition.column + 1] == 'x')
+                        if (CheckerBoard[checkerPosition.row + 1, checkerPosition.column + 1] == 'x')
                         {
                             if (checkerPosition.row + 2 < NumberOfRows && checkerPosition.column + 2 < NumberOfColumns)
                             {
@@ -140,7 +140,7 @@ namespace Checkers
                             if (!possibleMoves.Contains((checkerPosition.row + 1, checkerPosition.column - 1)))
                                 possibleMoves.Add((checkerPosition.row + 1, checkerPosition.column - 1));
                         }
-                        else if (CheckerBoard[checkerPosition.row + 1, checkerPosition.column - 1] == 'x')
+                        if (CheckerBoard[checkerPosition.row + 1, checkerPosition.column - 1] == 'x')
                         {
                             if (checkerPosition.row + 2 < NumberOfRows && checkerPosition.column - 2 >= 0)
                             {
@@ -157,22 +157,54 @@ namespace Checkers
                 }
                 else if (player.PlayerSymbol == 'x')
                 {
-                    if (checkerPosition.row - 1 >= 0 && checkerPosition.column + 1 < NumberOfColumns)
+                    if (checkerPosition.row - 1 < NumberOfRows && checkerPosition.column + 1 < NumberOfColumns)//&& checkerPosition.row - 2 > 0)
                     {
-
-                        if ((CheckerBoard[checkerPosition.row - 1, checkerPosition.column + 1] != 'o') && (CheckerBoard[checkerPosition.row - 1, checkerPosition.column + 1] != 'x'))
+                        if (checkerPosition.row - 1 >= 0)
                         {
-                            if (!possibleMoves.Contains((checkerPosition.row - 1, checkerPosition.column + 1)))
-                                possibleMoves.Add((checkerPosition.row - 1, checkerPosition.column + 1));
+                            if (CheckerBoard[checkerPosition.row - 1, checkerPosition.column + 1] == '_')
+                            {
+                                if (!possibleMoves.Contains((checkerPosition.row - 1, checkerPosition.column + 1)))
+                                    possibleMoves.Add((checkerPosition.row - 1, checkerPosition.column + 1));
+                            }
+
+                            if (CheckerBoard[checkerPosition.row - 1, checkerPosition.column + 1] == 'o')
+                            {
+                                if (checkerPosition.row - 2 < NumberOfRows && checkerPosition.column + 2 < NumberOfColumns && checkerPosition.row - 2 >= 0)
+                                {
+                                    if (CheckerBoard[checkerPosition.row - 2, checkerPosition.column + 2] == '_')
+                                    {
+                                        if (!possibleMoves.Contains((checkerPosition.row - 1, checkerPosition.column + 1)))
+                                        {
+                                            possibleMoves.Add((checkerPosition.row - 2, checkerPosition.column + 2));
+                                        }
+                                    }
+                                }
+                            }
                         }
-                    }
-                    if (checkerPosition.row - 1 >= 0 && checkerPosition.column - 1 >= 0)
-                    {
-                        if ((CheckerBoard[checkerPosition.row - 1, checkerPosition.column - 1] != 'o') && (CheckerBoard[checkerPosition.row - 1, checkerPosition.column - 1] != 'x'))
-                        {
 
-                            if (!possibleMoves.Contains((checkerPosition.row - 1, checkerPosition.column - 1)))
-                                possibleMoves.Add((checkerPosition.row - 1, checkerPosition.column - 1));
+                    }
+                    if (checkerPosition.row + 1 <= NumberOfRows && checkerPosition.column - 1 >= 0)
+                    {
+                        if (checkerPosition.row - 1 >= 0)
+                        {
+                            if ((CheckerBoard[checkerPosition.row - 1, checkerPosition.column - 1] == '_'))
+                            {
+                                if (!possibleMoves.Contains((checkerPosition.row - 1, checkerPosition.column - 1)))
+                                    possibleMoves.Add((checkerPosition.row - 1, checkerPosition.column - 1));
+                            }
+                            else if (CheckerBoard[checkerPosition.row - 1, checkerPosition.column - 1] == 'o')
+                            {
+                                if (checkerPosition.row - 2 < NumberOfRows && checkerPosition.column - 2 >= 0 && checkerPosition.row - 2 >= 0)
+                                {
+                                    if (CheckerBoard[checkerPosition.row - 2, checkerPosition.column - 2] == '_')
+                                    {
+                                        if (!possibleMoves.Contains((checkerPosition.row - 1, checkerPosition.column - 1)))
+                                        {
+                                            possibleMoves.Add((checkerPosition.row - 2, checkerPosition.column - 2));
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -212,40 +244,58 @@ namespace Checkers
                 player.Remove(currentPosition);
                 CheckerBoard[newPosition.newRow, newPosition.newColumn] = player.PlayerSymbol;
                 CheckerBoard[currentPosition.currentRow, currentPosition.currentColumn] = '_';
-                if (currentPosition.currentRow + 1 < NumberOfRows && currentPosition.currentColumn - 1 >= 0)
+                //
+                //if (currentPosition.currentRow + 1 < NumberOfRows && currentPosition.currentColumn - 1 >= 0)
+
                 {
                     if (player.PlayerSymbol == 'o')
                     {
-                        if (currentPosition.currentColumn + 1 < NumberOfColumns)
+                        if (currentPosition.currentRow + 1 < NumberOfRows && currentPosition.currentColumn >= 0)
                         {
-                            if (CheckerBoard[currentPosition.currentRow + 1, currentPosition.currentColumn + 1] == 'x')
+                            if (currentPosition.currentColumn + 1 < NumberOfColumns)
                             {
-                                CheckerBoard[currentPosition.currentRow + 1, currentPosition.currentColumn + 1] = '_';
-                                player2.Remove((currentPosition.currentRow + 1, currentPosition.currentColumn + 1));
+                                if ((CheckerBoard[currentPosition.currentRow + 1, currentPosition.currentColumn + 1] == 'x') && (newPosition.newColumn == (currentPosition.currentColumn + 2)))
+                                {
+                                    CheckerBoard[currentPosition.currentRow + 1, currentPosition.currentColumn + 1] = '_';
+                                    player2.Remove((currentPosition.currentRow + 1, currentPosition.currentColumn + 1));
 
+                                }
                             }
+                            if (currentPosition.currentColumn - 1 >= 0)
+                            {
+                                if ((CheckerBoard[currentPosition.currentRow + 1, currentPosition.currentColumn - 1] == 'x') && (newPosition.newColumn == (currentPosition.currentColumn - 2)))
+                                {
+                                    CheckerBoard[currentPosition.currentRow + 1, currentPosition.currentColumn - 1] = '_';
+                                    player2.Remove((currentPosition.currentRow + 1, currentPosition.currentColumn - 1));
+                                }
+                            }
+                            player2.PossibleMoves.Clear();
+                            GetPossibleMovesForChecker(player2);
                         }
-                        if (CheckerBoard[currentPosition.currentRow + 1, currentPosition.currentColumn - 1] == 'x')
-                        {
-                            CheckerBoard[currentPosition.currentRow + 1, currentPosition.currentColumn - 1] = '_';
-                            player2.Remove((currentPosition.currentRow + 1, currentPosition.currentColumn - 1));
-                        }
-
-                        player2.PossibleMoves.Clear();
-                        GetPossibleMovesForChecker(player2);
                     }
                     else if (player.PlayerSymbol == 'x')
                     {
-                        if (currentPosition.currentColumn + 1 < NumberOfColumns)
+                        if (currentPosition.currentColumn >= 0)
                         {
-                            if (CheckerBoard[currentPosition.currentRow + 1, currentPosition.currentColumn + 1] == 'o')
+                            if (currentPosition.currentColumn + 1 < NumberOfColumns)
                             {
-                                //CheckerBoard[currentPosition.currentRow + 1, currentPosition.currentColumn + 1] = '_';
-                                //player2.Remove((currentPosition.currentRow + 1, currentPosition.currentColumn + 1));
-                                player2.PossibleMoves.Clear();
-                                GetPossibleMovesForChecker(player2);
+                                if ((CheckerBoard[currentPosition.currentRow - 1, currentPosition.currentColumn + 1] == 'o') && (newPosition.newColumn == (currentPosition.currentColumn + 2)))
+                                {
+                                    CheckerBoard[currentPosition.currentRow - 1, currentPosition.currentColumn + 1] = '_';
+                                    player2.Remove((currentPosition.currentRow - 1, currentPosition.currentColumn + 1));
+                                }
+                            }
+                            if (currentPosition.currentColumn - 1 >= 0)
+                            {
+                                if ((CheckerBoard[currentPosition.currentRow - 1, currentPosition.currentColumn - 1] == 'o') && (newPosition.newColumn == (currentPosition.currentColumn - 2)))
+                                {
+                                    CheckerBoard[currentPosition.currentRow - 1, currentPosition.currentColumn - 1] = '_';
+                                    player2.Remove((currentPosition.currentRow - 1, currentPosition.currentColumn - 1));
+                                }
                             }
                         }
+                        player2.PossibleMoves.Clear();
+                        GetPossibleMovesForChecker(player2);
                     }
                 }
                 player.Add(newPosition);

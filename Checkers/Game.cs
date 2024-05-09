@@ -85,7 +85,7 @@ namespace Checkers
                 //        Console.WriteLine(move);
                 //    }
                 //}
-                //Console.WriteLine("----------------test----------------");
+                Console.WriteLine("----------------test----------------");
                 Console.Write("Press any key to continue...");
                 Console.ReadLine();
                 Console.Clear();
