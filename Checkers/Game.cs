@@ -20,47 +20,53 @@ namespace Checkers
                 board.DrawBoard();
                 player1.NumberOfCheckers = board.CheckPlayersCheckers(player1.PlayerSymbol);
                 Console.WriteLine($"\nPlayer - NumberOfCheckers: {player1.NumberOfCheckers}");
-
-                // new
                 computer.NumberOfCheckers = board.CheckPlayersCheckers(computer.PlayerSymbol);
                 Console.WriteLine($"\nComputer - NumberOfCheckers: {computer.NumberOfCheckers}");
-                // new
-
                 Console.WriteLine("\nPlayer1 'o' checkers positions: ");
                 board.CheckPositionsOfCheckers(player1);
                 board.GetPossibleMovesForChecker(player1);
-
-                // new
                 Console.WriteLine("\n\nComputer 'x' checkers positions:");
                 board.CheckPositionsOfCheckers(computer);
                 board.GetPossibleMovesForChecker(computer);
                 Console.WriteLine();
-                // new
-
                 //Player 1 - checker to move
-                    Console.Write("\nSelect a checker to move: ");
-                    string inputCurrentIndex = Console.ReadLine();
-                    (int currentRow, int currentColumn) currentPosition = board.GetCoordinates($"{inputCurrentIndex.ToUpper()}");
-                    string currentPositionReturned = board.GetIndex(currentPosition);
-                    Console.WriteLine($"\nPossible move for {currentPositionReturned}:");
+                Console.Write("\nSelect a checker to move: ");
+                string inputCurrentIndex = Console.ReadLine().ToUpper();
+                while (!player1.CoordinatesOfCheckers.Contains(inputCurrentIndex))
+                {
+                    Console.Clear();
+                    board.DrawBoard();
+                    Console.WriteLine("\nPlayer1 'o' checkers positions: ");
+                    board.CheckPositionsOfCheckers(player1);
+                    Console.Write("\n\nThere is no checker 'o' at that position. Select a checker to move: ");
+                    inputCurrentIndex = Console.ReadLine().ToUpper();
+                }
+                (int currentRow, int currentColumn) currentPosition = board.GetCoordinates($"{inputCurrentIndex.ToUpper()}");
+                string currentPositionReturned = board.GetIndex(currentPosition);
+                Console.WriteLine($"\nPossible move for {currentPositionReturned}:");
                 bool possibleMoves = board.GetPossibleMoveForSpecificChecker(player1, currentPosition);
-
                 if (possibleMoves)
                 {
                     Console.Write("\nSelect a new position: ");
                     string inputNewIndex = Console.ReadLine();
                     (int newRow, int newPos) newPosition = board.GetCoordinates($"{inputNewIndex.ToUpper()}");
-                    //Console.WriteLine(newPosition);
-                    board.MoveCheckerTest(player1,computer, currentPosition, newPosition);
+                    board.MoveCheckerTest(player1, computer, currentPosition, newPosition);
                     Console.Clear();
                     board.DrawBoard();
                 }
                 //Computer - checker to move
                 Console.Write("\nSelect a checker to move for computer: ");
-                string inputCurrentIndex2 = Console.ReadLine();
+                string inputCurrentIndex2 = Console.ReadLine().ToUpper();
+                while (!computer.CoordinatesOfCheckers.Contains(inputCurrentIndex2))
+                {
+                    Console.Clear();
+                    board.DrawBoard();
+                    Console.WriteLine("\nComputer 'x' checkers positions: ");
+                    board.CheckPositionsOfCheckers(computer);
+                    Console.Write("\n\nThere is no checker 'x' at that position. Select a checker to move for computer: ");
+                    inputCurrentIndex2 = Console.ReadLine().ToUpper();
+                }
                 (int currentRow2, int currentColumn2) currentPosition2 = board.GetCoordinates($"{inputCurrentIndex2.ToUpper()}");
-                //Console.WriteLine(currentPosition2);
-
                 string currentPositionReturned2 = board.GetIndex(currentPosition2);
                 Console.WriteLine($"\nPossible move for {currentPositionReturned2}:");
                 bool possibleMoves2 = board.GetPossibleMoveForSpecificChecker(computer, currentPosition2);
@@ -69,25 +75,12 @@ namespace Checkers
                     Console.Write("\nSelect a new position: ");
                     string inputNewIndex2 = Console.ReadLine();
                     (int newRow2, int newCol2) newPosition2 = board.GetCoordinates($"{inputNewIndex2.ToUpper()}");
-                    //Console.WriteLine(newPosition2);
-                    board.MoveCheckerTest(computer,player1, currentPosition2, newPosition2);
+                    board.MoveCheckerTest(computer, player1, currentPosition2, newPosition2);
                     Console.Clear();
                     board.DrawBoard();
                 }
-
-                //Console.WriteLine("----------------test----------------");
-                //foreach (var dupa in computer.PossibleMoves)
-                //{
-                //   Console.WriteLine($"key: {dupa.Key}");
-                //   Console.WriteLine($"values:");
-                //    foreach (var move in dupa.Value)
-                //    {
-                //        Console.WriteLine(move);
-                //    }
-                //}
-                Console.WriteLine("----------------test----------------");
-                Console.Write("Press any key to continue...");
-                Console.ReadLine();
+                //Console.Write("Press any key to continue...");
+                //Console.ReadLine();
                 Console.Clear();
             }
         }

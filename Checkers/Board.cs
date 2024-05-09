@@ -20,22 +20,8 @@ namespace Checkers
             NumberOfColumns = numberOfColumns;
 
             CheckerBoard = new char[NumberOfRows, NumberOfColumns];
-            // mapper = new CoordinateMapper();
             InitialBoard();
-            //DrawBoard();
             InitializeCoordinateMap();
-            //int player1NumberOfCheckers = CheckPlayersCheckers('o');
-            //Console.WriteLine(player1NumberOfCheckers);
-            //int player2NumberOfCheckers = CheckPlayersCheckers('x');
-            //Console.WriteLine(player2NumberOfCheckers);
-
-            //Console.WriteLine("Positions of player1: ");
-            //CheckPositionsOfCheckers(player1, 'o');
-            //Console.WriteLine("Positions of computer: ");
-            //CheckPositionsOfCheckers(computer, 'x');
-            //Console.WriteLine("dupa123\n");
-            //GetPossibleMovesForChecker(player1);
-
         }
         private void InitialBoard()
         {
@@ -97,10 +83,10 @@ namespace Checkers
                     }
                 }
             }
-            foreach (var newPlayerC in player.PositionsOfCheckers)
+            foreach (var pos in player.PositionsOfCheckers)
             {
-                //Console.WriteLine($"{newPlayerC.ToString()}: {GetIndex(newPlayerC)}");
-                Console.Write($"{GetIndex(newPlayerC)}, ");
+                Console.Write($"{GetIndex(pos)}, ");
+                player.CheckCoordinates(GetIndex(pos));
             }
         }
         public void GetPossibleMovesForChecker(Player player)
@@ -236,7 +222,6 @@ namespace Checkers
             Console.WriteLine();
             return false;
         }
-
         public void MoveCheckerTest(Player player, Player player2, (int currentRow, int currentColumn) currentPosition, (int newRow, int newColumn) newPosition)
         {
             if (!player.PositionsOfCheckers.Contains(newPosition))

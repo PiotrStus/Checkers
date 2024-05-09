@@ -30,7 +30,7 @@ namespace Checkers
                 //Console.WriteLine($"row: {row}");
                 for (int col = 0; col < Columns.Length; col++)
                 {
-                    string key = $"{Columns[col]}{row+1}";
+                    string key = $"{Columns[col]}{row + 1}";
                     //Console.WriteLine($"colum: {col}");
                     //Console.WriteLine($"key: {key}");
                     coordinateMap[key] = (row, col);
@@ -40,17 +40,8 @@ namespace Checkers
         }
         public (int, int) GetCoordinates(string key)
         {
-            //if (coordinateMap.ContainsKey(key))
-            //{
-            //    return coordinateMap[key];
-            // }
-            //else
-            //{
-            //    Console.WriteLinei
-            //}
             return coordinateMap[key];
         }
-
         public string GetIndex((int, int) coordinates)
         {
             return reverseCoordinateMap[coordinates];
