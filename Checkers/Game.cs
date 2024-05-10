@@ -44,9 +44,10 @@ namespace Checkers
                 }
                 (int currentRow, int currentColumn) currentPosition = board.GetCoordinates($"{inputCurrentIndex.ToUpper()}");
                 string currentPositionReturned = board.GetIndex(currentPosition);
-                Console.WriteLine($"\nPossible move for {currentPositionReturned}:");
-                bool possibleMoves = board.GetPossibleMoveForSpecificChecker(player1, currentPosition);
-                while (!possibleMoves)
+                Console.Write($"\nPossible move for {currentPositionReturned}: ");
+                List<string> possibleMoves = new List<string>();
+                possibleMoves = board.GetPossibleMoveForSpecificChecker(player1, currentPosition);
+                while (possibleMoves.Count <= 0)
                 {
                     Console.Clear();
                     board.DrawBoard();
@@ -65,12 +66,26 @@ namespace Checkers
                     }
                     currentPosition = board.GetCoordinates($"{inputCurrentIndex.ToUpper()}");
                     currentPositionReturned = board.GetIndex(currentPosition);
-                    Console.WriteLine($"\nPossible move for {currentPositionReturned}:");
+                    Console.Write($"\nPossible move for {currentPositionReturned}: ");
                     possibleMoves = board.GetPossibleMoveForSpecificChecker(player1, currentPosition);
                 }
+                //foreach (var c in possibleMoves)
+                //{ Console.WriteLine(c); }
+                //Console.ReadLine();
                 Console.Write("\nSelect a new position: ");
-                string inputNewIndex = Console.ReadLine();
+                string inputNewIndex = Console.ReadLine().ToUpper();
+                while (!possibleMoves.Contains(inputNewIndex))
+                    {
+                    Console.Clear();
+                    board.DrawBoard();
+                    Console.WriteLine("\nWrong position!.");
+                    Console.Write($"\nPossible move for {currentPositionReturned}: ");
+                    possibleMoves = board.GetPossibleMoveForSpecificChecker(player1, currentPosition);
+                    Console.Write("\nSelect a new position: ");
+                    inputNewIndex = Console.ReadLine().ToUpper();
+                    }
                 (int newRow, int newPos) newPosition = board.GetCoordinates($"{inputNewIndex.ToUpper()}");
+                board.MoveCheckerTest(player1, computer, currentPosition, newPosition);
                 board.MoveCheckerTest(player1, computer, currentPosition, newPosition);
                 Console.Clear();
                 board.DrawBoard();

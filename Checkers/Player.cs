@@ -17,6 +17,10 @@ namespace Checkers
         {
             PositionsOfCheckers.Add(position);
         }
+        public void UpdateCoordinates()
+        {
+            CoordinatesOfCheckers.Clear();
+        }
         public void CheckCoordinates(string position)
         {
             CoordinatesOfCheckers.Add(position);

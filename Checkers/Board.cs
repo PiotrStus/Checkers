@@ -83,6 +83,7 @@ namespace Checkers
                     }
                 }
             }
+            player.UpdateCoordinates();
             foreach (var pos in player.PositionsOfCheckers)
             {
                 Console.Write($"{GetIndex(pos)}, ");
@@ -258,8 +259,9 @@ namespace Checkers
 
             }
         }
-        public bool GetPossibleMoveForSpecificChecker(Player player, (int row, int col) currentPosition)
+        public List<string> GetPossibleMoveForSpecificChecker(Player player, (int row, int col) currentPosition)
         {
+            List<string> possibleMovesCoordinates = new List<string>();
             if (player.PossibleMoves.ContainsKey(currentPosition))
             {
                 GetPossibleMovesForChecker(player);
@@ -269,17 +271,22 @@ namespace Checkers
                     foreach (var move in possibleMoves)
                     {
                         Console.Write($"{GetIndex(move)}, ");
+                        possibleMovesCoordinates.Add(GetIndex(move));
                     }
-                    return true;
+                    //foreach (var cor in possibleMovesCoordinates)
+                    //    {
+                    //        Console.WriteLine(cor);
+                    //    }
+                    return possibleMovesCoordinates;
                 }
                 else
                 {
                     Console.WriteLine("There are no possible moves.");
-                    return false;
+                    return possibleMovesCoordinates;
                 }
             }
             Console.WriteLine();
-            return false;
+            return possibleMovesCoordinates;
         }
         public void MoveCheckerTest(Player player, Player player2, (int currentRow, int currentColumn) currentPosition, (int newRow, int newColumn) newPosition)
         {
