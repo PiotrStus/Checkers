@@ -95,6 +95,7 @@ namespace Checkers
             foreach (var checkerPosition in player.PositionsOfCheckers)
             {
                 List<(int, int)> possibleMoves = new List<(int, int)>();
+                List<(int, int)> possibleCaptures = new List<(int, int)>();
                 if (player.PlayerSymbol == 'o')
                 {
                     // Checking forward, right
@@ -113,7 +114,8 @@ namespace Checkers
                                 {
                                     if (!possibleMoves.Contains((checkerPosition.row + 1, checkerPosition.column + 1)))
                                     {
-                                        possibleMoves.Add((checkerPosition.row + 2, checkerPosition.column + 2));
+                                        //possibleMoves.Add((checkerPosition.row + 2, checkerPosition.column + 2));
+                                        possibleCaptures.Add((checkerPosition.row + 2, checkerPosition.column + 2));
                                     }
                                 }
                             }
@@ -136,7 +138,7 @@ namespace Checkers
                                 {
                                     if (!possibleMoves.Contains((checkerPosition.row + 1, checkerPosition.column - 1)))
                                     {
-                                        possibleMoves.Add((checkerPosition.row + 2, checkerPosition.column - 2));
+                                        possibleCaptures.Add((checkerPosition.row + 2, checkerPosition.column - 2));
                                     }
                                 }
                             }
@@ -151,7 +153,7 @@ namespace Checkers
                             {
                                 if (CheckerBoard[checkerPosition.row - 2, checkerPosition.column + 2] == '_')
                                 {
-                                    possibleMoves.Add((checkerPosition.row - 2, checkerPosition.column + 2));
+                                    possibleCaptures.Add((checkerPosition.row - 2, checkerPosition.column + 2));
                                 }
                             }
                         }
@@ -165,7 +167,7 @@ namespace Checkers
                             {
                                 if (CheckerBoard[checkerPosition.row - 2, checkerPosition.column - 2] == '_')
                                 {
-                                    possibleMoves.Add((checkerPosition.row - 2, checkerPosition.column - 2));
+                                    possibleCaptures.Add((checkerPosition.row - 2, checkerPosition.column - 2));
                                 }
                             }
                         }
@@ -192,7 +194,7 @@ namespace Checkers
                                     {
                                         if (!possibleMoves.Contains((checkerPosition.row - 1, checkerPosition.column + 1)))
                                         {
-                                            possibleMoves.Add((checkerPosition.row - 2, checkerPosition.column + 2));
+                                            possibleCaptures.Add((checkerPosition.row - 2, checkerPosition.column + 2));
                                         }
                                     }
                                 }
@@ -218,7 +220,7 @@ namespace Checkers
                                     {
                                         if (!possibleMoves.Contains((checkerPosition.row - 1, checkerPosition.column - 1)))
                                         {
-                                            possibleMoves.Add((checkerPosition.row - 2, checkerPosition.column - 2));
+                                            possibleCaptures.Add((checkerPosition.row - 2, checkerPosition.column - 2));
                                         }
                                     }
                                 }
@@ -234,7 +236,7 @@ namespace Checkers
                             {
                                 if (CheckerBoard[checkerPosition.row + 2, checkerPosition.column + 2] == '_')
                                 {
-                                    possibleMoves.Add((checkerPosition.row + 2, checkerPosition.column + 2));
+                                    possibleCaptures.Add((checkerPosition.row + 2, checkerPosition.column + 2));
                                 }
                             }
                         }
@@ -248,15 +250,20 @@ namespace Checkers
                             {
                                 if (CheckerBoard[checkerPosition.row + 2, checkerPosition.column - 2] == '_')
                                 {
-                                    possibleMoves.Add((checkerPosition.row + 2, checkerPosition.column - 2));
+                                    possibleCaptures.Add((checkerPosition.row + 2, checkerPosition.column - 2));
                                 }
                             }
                         }
                     }
                 }
-                player.AddPossibleMove(checkerPosition, possibleMoves);
-
-
+                if (possibleMoves.Count > 0 ) 
+                {
+                    player.AddPossibleMove(checkerPosition, possibleMoves);
+                }
+                if (possibleCaptures.Count > 0)
+                {
+                    player.AddPossibleCapture(checkerPosition, possibleMoves);
+                }
             }
         }
         public List<string> GetPossibleMoveForSpecificChecker(Player player, (int row, int col) currentPosition)
