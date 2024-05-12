@@ -86,7 +86,7 @@ namespace Checkers
                     }
                 (int newRow, int newPos) newPosition = board.GetCoordinates($"{inputNewIndex.ToUpper()}");
                 board.MoveCheckerTest(player1, computer, currentPosition, newPosition);
-                board.MoveCheckerTest(player1, computer, currentPosition, newPosition);
+                //board.MoveCheckerTest(player1, computer, currentPosition, newPosition);
                 Console.Clear();
                 board.DrawBoard();
 
@@ -140,33 +140,77 @@ namespace Checkers
 
                 // TEST //
                 Console.WriteLine("dupa");
+                var keysWithValuesMoves = new List<(int, int)>();
+                var keysWithValuesCaptures = new List<(int, int)>();
+                Console.WriteLine("keysWithValuesMoves");
+                foreach (var m in keysWithValuesMoves)
+                {
+                    Console.WriteLine(m);
+                }
+                Console.WriteLine("keysWithValuesCaptures");
+                foreach (var c in keysWithValuesCaptures)
+                {
+                    Console.WriteLine(c);
+                }
 
-                var keysWithValues = computer.PossibleMoves.Where(pair => pair.Value.Count > 0).Select(pair => pair.Key).ToList();
-                foreach (var key in keysWithValues)
+                board.CheckPositionsOfCheckers(player1);
+                board.GetPossibleMovesForChecker(player1);
+                Console.WriteLine();
+                board.CheckPositionsOfCheckers(computer);
+                board.GetPossibleMovesForChecker(computer);
+                keysWithValuesMoves = computer.PossibleMoves.Where(pair => pair.Value.Count > 0).Select(pair => pair.Key).ToList();
+
+                keysWithValuesCaptures = computer.PossibleCaptures.Where(pair => pair.Value.Count > 0).Select(pair => pair.Key).ToList();
+
+                Console.WriteLine("\nMoves ----");
+                foreach (var key in keysWithValuesMoves)
                 {
                     Console.WriteLine(key);
                 }
-                if (keysWithValues.Count > 0)
+                Console.WriteLine("Captures ----");
+                foreach (var key in keysWithValuesCaptures)
                 {
-                    var randomKey = keysWithValues[random.Next(keysWithValues.Count)];
-                    Console.WriteLine("dupa2");
-                    Console.WriteLine($"randomKey: {randomKey}");
-
-                    var correspondingValues = computer.PossibleMoves[randomKey];
+                    Console.WriteLine(key);
+                }
+                (int, int) randomKey = (0, 0);
+                (int, int) randomValue = (0, 0);
+                List<(int, int)> correspondingValues = new List<(int, int)>();
+                if (keysWithValuesCaptures.Count > 0)
+                {
+       
+                    randomKey = keysWithValuesCaptures[random.Next(keysWithValuesCaptures.Count)];
+                    Console.WriteLine($"\nrandomKey Capture: {randomKey}");
+                    correspondingValues = computer.PossibleCaptures[randomKey];
                     foreach (var value in correspondingValues)
                     {
                         Console.WriteLine($"value: {value}");
                     }
-                    //Console.WriteLine(correspondingValues);
                     if (correspondingValues.Count > 0)
                     {
-                        var randomValue = correspondingValues[random.Next(correspondingValues.Count)];
-                        Console.WriteLine("Wybrana losowa wartość:");
+                        randomValue = correspondingValues[random.Next(correspondingValues.Count)];
+                        Console.WriteLine("Wybrana losowa wartość Capture:");
                         Console.WriteLine(randomValue);
                         board.MoveCheckerTest(computer, player1, randomKey, randomValue);
                     }
                 }
-                Console.WriteLine("dupa");
+                else if (keysWithValuesMoves.Count > 0)
+                {
+                    randomKey = keysWithValuesMoves[random.Next(keysWithValuesMoves.Count)];
+                    Console.WriteLine($"\nrandomKey Move: {randomKey}");
+                    correspondingValues = computer.PossibleMoves[randomKey];
+                    foreach (var value in correspondingValues)
+                    {
+                        Console.WriteLine($"value: {value}");
+                    }
+                    if (correspondingValues.Count > 0)
+                    {
+                        randomValue = correspondingValues[random.Next(correspondingValues.Count)];
+                        Console.WriteLine("Wybrana losowa wartość Move:");
+                        Console.WriteLine(randomValue);
+                        board.MoveCheckerTest(computer, player1, randomKey, randomValue);
+                    }
+                }
+                //Console.WriteLine("dupa");
                 Console.ReadLine();
                 // TEST //
 

@@ -112,7 +112,7 @@ namespace Checkers
                             {
                                 if (CheckerBoard[checkerPosition.row + 2, checkerPosition.column + 2] == '_')
                                 {
-                                    if (!possibleMoves.Contains((checkerPosition.row + 1, checkerPosition.column + 1)))
+                                    if (!possibleCaptures.Contains((checkerPosition.row + 2, checkerPosition.column + 2)))
                                     {
                                         //possibleMoves.Add((checkerPosition.row + 2, checkerPosition.column + 2));
                                         possibleCaptures.Add((checkerPosition.row + 2, checkerPosition.column + 2));
@@ -136,7 +136,7 @@ namespace Checkers
                             {
                                 if (CheckerBoard[checkerPosition.row + 2, checkerPosition.column - 2] == '_')
                                 {
-                                    if (!possibleMoves.Contains((checkerPosition.row + 1, checkerPosition.column - 1)))
+                                    if (!possibleCaptures.Contains((checkerPosition.row + 2, checkerPosition.column - 2)))
                                     {
                                         possibleCaptures.Add((checkerPosition.row + 2, checkerPosition.column - 2));
                                     }
@@ -192,7 +192,7 @@ namespace Checkers
                                 {
                                     if (CheckerBoard[checkerPosition.row - 2, checkerPosition.column + 2] == '_')
                                     {
-                                        if (!possibleMoves.Contains((checkerPosition.row - 1, checkerPosition.column + 1)))
+                                        if (!possibleCaptures.Contains((checkerPosition.row - 2, checkerPosition.column + 2)))
                                         {
                                             possibleCaptures.Add((checkerPosition.row - 2, checkerPosition.column + 2));
                                         }
@@ -218,7 +218,7 @@ namespace Checkers
                                 {
                                     if (CheckerBoard[checkerPosition.row - 2, checkerPosition.column - 2] == '_')
                                     {
-                                        if (!possibleMoves.Contains((checkerPosition.row - 1, checkerPosition.column - 1)))
+                                        if (!possibleCaptures.Contains((checkerPosition.row - 2, checkerPosition.column - 2)))
                                         {
                                             possibleCaptures.Add((checkerPosition.row - 2, checkerPosition.column - 2));
                                         }
@@ -262,14 +262,40 @@ namespace Checkers
                 }
                 if (possibleCaptures.Count > 0)
                 {
-                    player.AddPossibleCapture(checkerPosition, possibleMoves);
+                    player.AddPossibleCapture(checkerPosition, possibleCaptures);
                 }
             }
         }
         public List<string> GetPossibleMoveForSpecificChecker(Player player, (int row, int col) currentPosition)
         {
             List<string> possibleMovesCoordinates = new List<string>();
-            if (player.PossibleMoves.ContainsKey(currentPosition))
+            if (player.PossibleCaptures.ContainsKey(currentPosition))
+            {
+                GetPossibleMovesForChecker(player);
+                List<(int, int)> possibleCaptures = player.PossibleCaptures[currentPosition];
+                if (possibleCaptures.Count > 0)
+                {
+                    foreach (var move in possibleCaptures)
+                    {
+                        Console.Write($"{GetIndex(move)}, ");
+                        possibleMovesCoordinates.Add(GetIndex(move));
+                    }
+                    Console.WriteLine("\nD U P K A");
+                    foreach (var move in possibleMovesCoordinates)
+                    {
+                        
+                        Console.WriteLine(move);
+                    }
+                    Console.WriteLine("D U P K A");
+                    return possibleMovesCoordinates;
+                }
+                else
+                {
+                    Console.WriteLine("There are no possible moves.");
+                    return possibleMovesCoordinates;
+                }
+            }
+            else if (player.PossibleMoves.ContainsKey(currentPosition))
             {
                 GetPossibleMovesForChecker(player);
                 List<(int, int)> possibleMoves = player.PossibleMoves[currentPosition];
@@ -280,10 +306,7 @@ namespace Checkers
                         Console.Write($"{GetIndex(move)}, ");
                         possibleMovesCoordinates.Add(GetIndex(move));
                     }
-                    //foreach (var cor in possibleMovesCoordinates)
-                    //    {
-                    //        Console.WriteLine(cor);
-                    //    }
+
                     return possibleMovesCoordinates;
                 }
                 else
@@ -291,8 +314,10 @@ namespace Checkers
                     Console.WriteLine("There are no possible moves.");
                     return possibleMovesCoordinates;
                 }
+
             }
             Console.WriteLine();
+
             return possibleMovesCoordinates;
         }
         public void MoveCheckerTest(Player player, Player player2, (int currentRow, int currentColumn) currentPosition, (int newRow, int newColumn) newPosition)
@@ -338,6 +363,7 @@ namespace Checkers
 
                         }
                         player2.PossibleMoves.Clear();
+                        player2.PossibleCaptures.Clear();
                         GetPossibleMovesForChecker(player2);
                     }
                     else if (player.PlayerSymbol == 'x')
@@ -371,11 +397,13 @@ namespace Checkers
                             }
                         }
                         player2.PossibleMoves.Clear();
+                        player2.PossibleCaptures.Clear();
                         GetPossibleMovesForChecker(player2);
                     }
                 }
                 player.Add(newPosition);
                 player.PossibleMoves.Clear();
+                player.PossibleCaptures.Clear();
                 GetPossibleMovesForChecker(player);
             }
         }
