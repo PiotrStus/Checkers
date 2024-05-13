@@ -14,6 +14,9 @@ namespace Checkers
         Board board;
         public static Random random = new Random();
         bool gameOn = true;
+        /// <summary>
+        /// Main logic for checker's game
+        /// </summary>
         public void GameOn()
         {
             board = new Board(8, 8, player1, computer);
@@ -28,7 +31,9 @@ namespace Checkers
             Console.Clear();
             Console.WriteLine("---------------------- GAME OVER ----------------------");
     }
-
+        /// <summary>
+        /// Game initialization.
+        /// </summary>
         public void GameInit()
         {
             board.DrawBoard();
@@ -44,6 +49,9 @@ namespace Checkers
             board.GetPossibleMovesForChecker(computer);
             Console.WriteLine();
         }
+        /// <summary>
+        /// Logic for the computer.
+        /// </summary>
         public void ComputerLogic()
         {
             var keysWithValuesMoves = new List<(int, int)>();
@@ -66,7 +74,7 @@ namespace Checkers
                 if (correspondingValues.Count > 0)
                 {
                     randomValue = correspondingValues[random.Next(correspondingValues.Count)];
-                    board.MoveCheckerTest(computer, player1, randomKey, randomValue);
+                    board.MoveChecker(computer, player1, randomKey, randomValue);
                 }
             }
             else if (keysWithValuesMoves.Count > 0)
@@ -76,13 +84,16 @@ namespace Checkers
                 if (correspondingValues.Count > 0)
                 {
                     randomValue = correspondingValues[random.Next(correspondingValues.Count)];
-                    board.MoveCheckerTest(computer, player1, randomKey, randomValue);
+                    board.MoveChecker(computer, player1, randomKey, randomValue);
                 }
             }
             else if ((computer.PossibleMoves.Count <= 0 && computer.PossibleCaptures.Count <= 0) || computer.NumberOfCheckers <= 0)
                 gameOn = false;
             Console.Clear();
         }
+        /// <summary>
+        /// Logic for a player.
+        /// </summary>
         public void PlayerLogic()
         {
             Console.Write("\nSelect a checker to move: ");
@@ -136,7 +147,7 @@ namespace Checkers
                 inputNewIndex = Console.ReadLine().ToUpper();
             }
             (int newRow, int newPos) newPosition = board.GetCoordinates($"{inputNewIndex.ToUpper()}");
-            board.MoveCheckerTest(player1, computer, currentPosition, newPosition);
+            board.MoveChecker(player1, computer, currentPosition, newPosition);
             Console.Clear();
             board.DrawBoard();
             if ((player1.PossibleMoves.Count <= 0 && player1.PossibleCaptures.Count <= 0) || player1.NumberOfCheckers <= 0)

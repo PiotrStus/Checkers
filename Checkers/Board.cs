@@ -21,6 +21,9 @@ namespace Checkers
             InitialBoard();
             InitializeCoordinateMap();
         }
+        /// <summary>
+        /// Fill the board with checkers for both players and mark empty positions with "_".
+        /// </summary>
         private void InitialBoard()
         {
             for (int row = 0; row < NumberOfRows; row++)
@@ -40,6 +43,9 @@ namespace Checkers
                 }
             }
         }
+        /// <summary>
+        /// Draw a checker board.
+        /// </summary>
         public void DrawBoard()
         {
             Console.ForegroundColor = ConsoleColor.Red;
@@ -59,6 +65,11 @@ namespace Checkers
                 Console.WriteLine();
             }
         }
+        /// <summary>
+        /// Check player's checkers. Return number of player's checkers.
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
         public int CheckPlayersCheckers(char p)
         {
             int count = 0;
@@ -68,6 +79,10 @@ namespace Checkers
             }
             return count;
         }
+        /// <summary>
+        /// Fill PositionsOfCheckers for a specific players with checkers belong to the player.
+        /// </summary>
+        /// <param name="player"></param>
         public void CheckPositionsOfCheckers(Player player)
         {
             for (int row = 0; row < NumberOfColumns; row++)
@@ -88,6 +103,10 @@ namespace Checkers
                 player.CheckCoordinates(GetIndex(pos));
             }
         }
+        /// <summary>
+        /// Get all possible positions of player's checkers.
+        /// </summary>
+        /// <param name="player"></param>
         public void GetPossibleMovesForChecker(Player player)
         {
             foreach (var checkerPosition in player.PositionsOfCheckers)
@@ -263,6 +282,12 @@ namespace Checkers
                 }
             }
         }
+        /// <summary>
+        /// Get all possible moves of player's checkers. First check captures, then normal moves.
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="currentPosition"></param>
+        /// <returns></returns>
         public List<string> GetPossibleMoveForSpecificChecker(Player player, (int row, int col) currentPosition)
         {
             List<string> possibleMovesCoordinates = new List<string>();
@@ -310,7 +335,14 @@ namespace Checkers
 
             return possibleMovesCoordinates;
         }
-        public void MoveCheckerTest(Player player, Player player2, (int currentRow, int currentColumn) currentPosition, (int newRow, int newColumn) newPosition)
+        /// <summary>
+        /// Move a player's checker to a specific position.
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="player2"></param>
+        /// <param name="currentPosition"></param>
+        /// <param name="newPosition"></param>
+        public void MoveChecker(Player player, Player player2, (int currentRow, int currentColumn) currentPosition, (int newRow, int newColumn) newPosition)
         {
             if (!player.PositionsOfCheckers.Contains(newPosition))
             {
