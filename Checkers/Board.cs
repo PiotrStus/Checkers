@@ -13,12 +13,10 @@ namespace Checkers
         public int NumberOfRows { get; private set; }
         public int NumberOfColumns { get; private set; }
         public char[,] CheckerBoard { get; private set; }
-
         public Board(int numberOfRows, int numberOfColumns, Player player1, Player computer) : base(new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H' }, 8)
         {
             NumberOfRows = numberOfRows;
             NumberOfColumns = numberOfColumns;
-
             CheckerBoard = new char[NumberOfRows, NumberOfColumns];
             InitialBoard();
             InitializeCoordinateMap();
@@ -114,7 +112,6 @@ namespace Checkers
                                 {
                                     if (!possibleCaptures.Contains((checkerPosition.row + 2, checkerPosition.column + 2)))
                                     {
-                                        //possibleMoves.Add((checkerPosition.row + 2, checkerPosition.column + 2));
                                         possibleCaptures.Add((checkerPosition.row + 2, checkerPosition.column + 2));
                                     }
                                 }
@@ -176,7 +173,7 @@ namespace Checkers
                 else if (player.PlayerSymbol == 'x')
                 {
                     // Checking backward, right
-                    if (checkerPosition.row - 1 < NumberOfRows && checkerPosition.column + 1 < NumberOfColumns)//&& checkerPosition.row - 2 > 0)
+                    if (checkerPosition.row - 1 < NumberOfRows && checkerPosition.column + 1 < NumberOfColumns)
                     {
                         if (checkerPosition.row - 1 >= 0)
                         {
@@ -280,13 +277,6 @@ namespace Checkers
                         Console.Write($"{GetIndex(move)}, ");
                         possibleMovesCoordinates.Add(GetIndex(move));
                     }
-                    Console.WriteLine("\nD U P K A");
-                    foreach (var move in possibleMovesCoordinates)
-                    {
-                        
-                        Console.WriteLine(move);
-                    }
-                    Console.WriteLine("D U P K A");
                     return possibleMovesCoordinates;
                 }
                 else

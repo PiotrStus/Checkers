@@ -22,17 +22,11 @@ namespace Checkers
         }
         protected void InitializeCoordinateMap()
         {
-            //char[] columns = "ABCDEFGH".ToCharArray();
-            //int rows = 8;
-
             for (int row = 0; row < NumberOfRows; row++)
             {
-                //Console.WriteLine($"row: {row}");
                 for (int col = 0; col < Columns.Length; col++)
                 {
                     string key = $"{Columns[col]}{row + 1}";
-                    //Console.WriteLine($"colum: {col}");
-                    //Console.WriteLine($"key: {key}");
                     coordinateMap[key] = (row, col);
                     reverseCoordinateMap[(row, col)] = key;
                 }

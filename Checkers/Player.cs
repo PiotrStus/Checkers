@@ -14,6 +14,14 @@ namespace Checkers
         public List<string>? CoordinatesOfCheckers { get; private set; }
         public Dictionary<(int row, int col), List<(int, int)>> PossibleMoves { get; private set; }
         public Dictionary<(int row, int col), List<(int, int)>> PossibleCaptures { get; private set; }
+        public Player(char playerSymbol)
+        {
+            PositionsOfCheckers = new List<(int row, int column)>();
+            PossibleMoves = new Dictionary<(int row, int col), List<(int, int)>>();
+            PossibleCaptures = new Dictionary<(int row, int col), List<(int, int)>>();
+            CoordinatesOfCheckers = new List<string>();
+            PlayerSymbol = playerSymbol;
+        }
         public void Add((int row, int column) position)
         {
             PositionsOfCheckers.Add(position);
@@ -53,14 +61,6 @@ namespace Checkers
                 PossibleCaptures[position].Clear();
             }
             PossibleCaptures[position].AddRange(move);
-        }
-        public Player(char playerSymbol)
-        {
-            PositionsOfCheckers = new List<(int row, int column)>();
-            PossibleMoves = new Dictionary<(int row, int col), List<(int, int)>>();
-            PossibleCaptures = new Dictionary<(int row, int col), List<(int, int)>>();
-            CoordinatesOfCheckers = new List<string>();
-            PlayerSymbol = playerSymbol;
         }
     }
 }
