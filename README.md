@@ -7,7 +7,14 @@ The C# checkers game project is a console-based implementation of the classic ga
 
 ## Class diagram 
 <p align="center">
-<img width="500px" alt="class diagram" src="https://github.com/PiotrStus/Checkers/assets/158161675/65a836bd-feeb-4c40-be56-15b4694cc3d1">
+  <img width="500px" alt="class diagram" src="https://github.com/PiotrStus/Checkers/assets/158161675/65a836bd-feeb-4c40-be56-15b4694cc3d1">
+</p>
+
+## Video
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=2-mso4g1fLw">
+    <img src="https://img.youtube.com/vi/2-mso4g1fLw/0.jpg" alt="Tekst alternatywny">
+  </a>
 </p>
 
 ## Features
