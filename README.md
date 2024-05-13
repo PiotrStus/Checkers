@@ -43,3 +43,9 @@ To run the game, follow these steps:
 2. Open the project in a C# compatible IDE (e.g., Visual Studio).
 3. Compile the project.
 4. Run the application.
+
+## Future Additions / Potential Enhancements:
+
+1. **Multiple Captures:** Implement the ability for multiple captures, allowing players to continue their moves from the same square after completing the initial capture.
+
+2. **King Logic:** Enhance the game logic to include king pieces, enabling movement in any direction across the board and the ability to make multiple moves in a single turn.
